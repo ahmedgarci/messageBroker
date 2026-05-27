@@ -13,6 +13,7 @@ import com.example.messageBroker.domain.Binding;
 import com.example.messageBroker.domain.Exchange;
 import com.example.messageBroker.domain.Message;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,6 +24,7 @@ public class RoutingService {
     private final MessageRepo messageRepo;
     private final RoutingStrategyResolver strategyResolver;
 
+    @Transactional
     public void route(PublishRequest request, List<Binding> bindings,Exchange exchange) {
         RoutingStrategy strategy = strategyResolver.resolve(exchange.getType());
 
@@ -36,6 +38,8 @@ public class RoutingService {
             }
         }
     }
+
+
 
 
 

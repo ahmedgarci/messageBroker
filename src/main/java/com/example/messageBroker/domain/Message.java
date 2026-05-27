@@ -55,6 +55,8 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="original_queue_id")
     private BrokerQueue originialQueue;
+    
+    private LocalDateTime available_at;
 
     private Integer retryCount = 0;
 

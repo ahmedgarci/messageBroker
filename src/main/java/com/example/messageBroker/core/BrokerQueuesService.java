@@ -9,6 +9,7 @@ import com.example.messageBroker.Mappers.Queue.BrodkerQueueCreator;
 import com.example.messageBroker.Repository.BrokerQueueRepo;
 import com.example.messageBroker.Repository.MessageRepo;
 import com.example.messageBroker.controller.Queues.Requests.CreateQueueRequest;
+import com.example.messageBroker.controller.Queues.Resp.QueueResponse;
 import com.example.messageBroker.domain.BrokerQueue;
 import com.example.messageBroker.domain.Message;
 import com.example.messageBroker.domain.Constants.MessageStatus;
@@ -47,5 +48,19 @@ public class BrokerQueuesService {
         BrokerQueue queue = brokerQueueRepo.findByName(dlq).orElseThrow(()-> new EntityNotFoundException("dlq not found"));
         return messageRepo.findByQueueIdAndStatus(queue.getId(),MessageStatus.FAILED);        
     }
+
+    public List<QueueResponse> getQueuees() {
+        List<Object[]> rows = brokerQueueRepo.findAllWithStats();
+            return rows.stream()
+                .map(r -> new QueueResponse(
+                    (String) r[0],
+                    ((Number) r[1]).longValue(),
+                    ((Number) r[2]).longValue(),
+                    ((Number) r[3]).longValue(),
+                    2
+                ))
+            .toList();
+    };
+    
     
 }

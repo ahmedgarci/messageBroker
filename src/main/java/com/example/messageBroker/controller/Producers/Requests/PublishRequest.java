@@ -9,7 +9,8 @@ public record PublishRequest(
     String payload,
     MessageType messageType,
     Map<String,String> headers,
-    String routingKey
+    String routingKey,
+    Integer delay
 ) {
     
 }

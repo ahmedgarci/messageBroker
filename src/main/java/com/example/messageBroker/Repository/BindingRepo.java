@@ -18,4 +18,5 @@ public interface BindingRepo extends JpaRepository<Binding,UUID>{
 
     boolean existsByExchangeNameAndQueueNameAndRoutingKey(String exchangeName, String queueName, String routingKey);
 
+
 }

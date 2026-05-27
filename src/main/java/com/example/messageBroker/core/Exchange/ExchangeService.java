@@ -1,11 +1,15 @@
 package com.example.messageBroker.core.Exchange;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.messageBroker.Mappers.Exchange.ExchangeFactory;
+import com.example.messageBroker.Mappers.Exchange.ExchangeMapper;
 import com.example.messageBroker.Repository.ExchnageRepo;
 import com.example.messageBroker.Validations.Exchange.ExchangeValidator;
 import com.example.messageBroker.controller.Exchange.Requestss.CreateExchangeReq;
+import com.example.messageBroker.controller.Exchange.Responses.ExchangeResponse;
 import com.example.messageBroker.domain.Exchange;
 
 import jakarta.transaction.Transactional;
@@ -18,6 +22,7 @@ public class ExchangeService {
     private final ExchnageRepo exchangeRepo;
     private final ExchangeValidator exchangeValidator;
     private final ExchangeFactory exchangeFactory;
+    private final ExchangeMapper exchangeMapper;
 
     @Transactional
     public void createExchange(CreateExchangeReq req){
@@ -28,4 +33,13 @@ public class ExchangeService {
 
         exchangeRepo.save(exchange);
     }
+
+    public List<ExchangeResponse> getExchangesDetails(){
+        
+        List<Object[]> exchanges = exchangeRepo.findExchangeStats();
+
+        return exchanges.stream().map((e)-> exchangeMapper.toExchangeResponse(e)).toList();
+    
+    }
+
 }
