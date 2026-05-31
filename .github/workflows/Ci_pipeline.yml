@@ -18,19 +18,20 @@ jobs:
           java-version: 17
           distribution: temurin
 
-      - name: build And Test
-        run: mvn clean verify
-
-      - name: sonarqube scan
-        uses: SonarSource/sonarqube-scan-action@v4
+      - name: Build and analyze (sonar cloud)
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          mvn clean verify sonar:sonar \
+            -Dsonar.organization=ahmedgarci \
+            -Dsonar.projectKey=ahmedgarci_messageBroker
 
       - name: Quality Gate Check
         uses: SonarSource/sonarqube-quality-gate-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          scanMetadataReportFile: target/sonar/report-task.txt
 
   deploy:
     needs: packageAndTest
