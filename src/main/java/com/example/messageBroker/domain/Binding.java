@@ -24,7 +24,7 @@ public class Binding {
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne()
     private Exchange exchange;  
 
     @ManyToOne

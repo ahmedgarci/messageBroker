@@ -1,24 +1,53 @@
 name: Message Broker CI Pipeline
 
 on:
-    push: 
-        branches: ["main"]
+  push:
+    branches: ["main"]
 
 jobs:
-    packageApp:
-        runs-on: ubuntu-latest
-        steps:
-            - name: checkout-code
-              uses: actions/checkout@v4
-                
-            - name: SetupDockerHub
-              uses: docker/login-action@v3
-              with:
-                username: ${{ secrets.USERNAME }}
-                password: ${{ secrets.PASS }}
-            
-            - name: BuildImage
-              run: docker build -t ${{ secrets.USERNAME }}/message-broker:1.${{ github.run_number }} .
-            
-            - name: DeployToDockerHub
-              run: docker push ${{ secrets.USERNAME }}/message-broker:1.${{ github.run_number }}
+  packageAndTest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout-code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: build And Test
+        run: mvn clean verify
+
+      - name: sonarqube scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Quality Gate Check
+        uses: SonarSource/sonarqube-quality-gate-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  deploy:
+    needs: packageAndTest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkoutCode
+        uses: actions/checkout@v4
+
+      - name: Setup DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASS }}
+
+      - name: Build Image
+        run: docker build -t ${{ secrets.USERNAME }}/message-broker:1.${{ github.run_number }} .
+
+      - name: Push Image
+        run: docker push ${{ secrets.USERNAME }}/message-broker:1.${{ github.run_number }}
