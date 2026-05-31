@@ -9,6 +9,7 @@ import com.example.messageBroker.Mappers.Exchange.ExchangeMapper;
 import com.example.messageBroker.Repository.ExchnageRepo;
 import com.example.messageBroker.Validations.Exchange.ExchangeValidator;
 import com.example.messageBroker.controller.Exchange.Requestss.CreateExchangeReq;
+import com.example.messageBroker.controller.Exchange.Responses.ExchangeDTO;
 import com.example.messageBroker.controller.Exchange.Responses.ExchangeResponse;
 import com.example.messageBroker.domain.Exchange;
 
@@ -40,6 +41,12 @@ public class ExchangeService {
 
         return exchanges.stream().map((e)-> exchangeMapper.toExchangeResponse(e)).toList();
     
+    }
+
+    public List<?> getAllExchanges() {
+        
+        return exchangeRepo.findAll().stream().map((e)-> new ExchangeDTO(e.getId(),e.getName())).toList();
+
     }
 
 }

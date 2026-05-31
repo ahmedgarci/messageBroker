@@ -3,10 +3,10 @@ package com.example.messageBroker.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.springframework.data.annotation.CreatedDate;
 
 import com.example.messageBroker.domain.Constants.ExchangeType;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,9 +31,10 @@ public class Exchange {
     private UUID id;
 
     private String name;
+
     @Enumerated(EnumType.STRING)
     private ExchangeType type;
-
-    @CreatedDate
+    
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 }

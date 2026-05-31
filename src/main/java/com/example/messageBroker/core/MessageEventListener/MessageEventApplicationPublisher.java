@@ -17,9 +17,10 @@ public class MessageEventApplicationPublisher {
     
     @TransactionalEventListener(phase =  TransactionPhase.AFTER_COMMIT)
     public void onMessageCreated(MessageEvent messageEvent){
+
         Message message = messageEvent.message();
 
-        messagingTemplate.convertAndSend("/broker/queues/"+message.getQueue().getName(), message);
+        messagingTemplate.convertAndSend("/broker/queues", message);
 
     }
 }

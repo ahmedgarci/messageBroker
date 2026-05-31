@@ -18,13 +18,15 @@ public class Producer {
     
     private final ProducerService producerService;
 
-    @PostMapping("/exchanges/{exchangeName}/messages")
+    @PostMapping("/{exchangeName}/messages")
     public void publish(
             @PathVariable String exchangeName,
             @RequestBody PublishRequest request
     ) {
         producerService.publish(exchangeName, request);
     }
+
+    
 
     @PostMapping("/{messageId}/recover/")
     public void recoverMessageFromDlq(@PathVariable(name = "messageId") String messageId) {
