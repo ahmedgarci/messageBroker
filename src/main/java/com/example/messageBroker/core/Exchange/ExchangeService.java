@@ -39,13 +39,13 @@ public class ExchangeService {
         
         List<Object[]> exchanges = exchangeRepo.findExchangeStats();
 
-        return exchanges.stream().map((e)-> exchangeMapper.toExchangeResponse(e)).toList();
+        return exchanges.stream().map(exchangeMapper::toExchangeResponse).toList();
     
     }
 
     public List<?> getAllExchanges() {
         
-        return exchangeRepo.findAll().stream().map((e)-> new ExchangeDTO(e.getId(),e.getName())).toList();
+        return exchangeRepo.findAll().stream().map( e -> new ExchangeDTO(e.getId(),e.getName())).toList();
 
     }
 

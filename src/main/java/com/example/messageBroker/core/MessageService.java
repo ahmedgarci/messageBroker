@@ -34,7 +34,7 @@ public class MessageService {
     
         List<Object[]> messages = messageRepo.findMessages();
 
-        return messages.stream().map((m) -> messageMapper.toMessageResponse(m)).toList();
+        return messages.stream().map(messageMapper::toMessageResponse).toList();
 
     }
 
