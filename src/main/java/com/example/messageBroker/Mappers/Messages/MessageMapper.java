@@ -5,7 +5,9 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
+import com.example.messageBroker.controller.Messages.Responses.DlqMessageResponse;
 import com.example.messageBroker.controller.Messages.Responses.MessageResponse;
+import com.example.messageBroker.domain.Message;
 
 @Component
 public class MessageMapper {
@@ -21,4 +23,14 @@ public class MessageMapper {
         .type((String)o[3])
         .build();
     }
+
+    public DlqMessageResponse fromMessagetoMessageFailedResponse(Message message){
+        return DlqMessageResponse.builder()
+        .message_id(message.getId())
+        .queue(message.getQueue().getName())
+        .retries(message.getRetryCount())
+        .build();
+    }
+
+
 }

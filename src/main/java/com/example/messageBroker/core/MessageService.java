@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.messageBroker.Mappers.Messages.MessageMapper;
 import com.example.messageBroker.Repository.MessageHistoryRepository;
 import com.example.messageBroker.Repository.MessageRepo;
+import com.example.messageBroker.controller.Messages.Responses.DlqMessageResponse;
 import com.example.messageBroker.controller.Messages.Responses.MessageResponse;
 import com.example.messageBroker.domain.MessageHistory;
 
@@ -35,6 +36,12 @@ public class MessageService {
         List<Object[]> messages = messageRepo.findMessages();
 
         return messages.stream().map(messageMapper::toMessageResponse).toList();
+
+    }
+
+    public List<DlqMessageResponse> getDlqMessages() {
+        
+        return messageRepo.findFailedMessages().stream().map(messageMapper::fromMessagetoMessageFailedResponse).toList();
 
     }
 

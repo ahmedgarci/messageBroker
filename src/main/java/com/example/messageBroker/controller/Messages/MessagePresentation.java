@@ -3,6 +3,7 @@ package com.example.messageBroker.controller.Messages;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.messageBroker.controller.Messages.Responses.DlqMessageResponse;
 import com.example.messageBroker.controller.Messages.Responses.MessageResponse;
 import com.example.messageBroker.core.MessageService;
 
@@ -25,5 +26,12 @@ public class MessagePresentation {
     public ResponseEntity<List<MessageResponse>> getMessages() {
         return ResponseEntity.ok().body(messageService.getMessages());
     }
+
+    @GetMapping("/dlq")
+    public ResponseEntity<List<DlqMessageResponse>> getDlqMessages() {
+        return ResponseEntity.ok().body(messageService.getDlqMessages());
+    }
+
+
     
 }

@@ -35,4 +35,6 @@ public interface MessageRepo extends JpaRepository<Message,UUID>{
     @Query(value="select m.id,q.name,m.status,m.type,m.retry_count,m.created_at from message as m left join broker_queue as q on m.queue_id = q.id order by m.created_at DESC",nativeQuery = true)
     List<Object[]> findMessages();
 
+    @Query(value = "SELECT * FROM Message as m where m.status = 'FAILED'",nativeQuery=true)
+    List<Message> findFailedMessages();
 }

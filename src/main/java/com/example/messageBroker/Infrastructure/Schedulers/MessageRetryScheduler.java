@@ -38,10 +38,15 @@ public class MessageRetryScheduler {
         List<Message> messages = messageRepo.findStuckProcessingMessages(cutOff);
 
         for(Message message : messages){
+
             if(message.getRetryCount() != null && message.getRetryCount() > MAX_RETRY){
+
                 moveToDeadLetterQueue(message);         
+
             }else{
+
                 retryMessage(message);
+
             }
         
         }
@@ -65,13 +70,15 @@ public class MessageRetryScheduler {
         BrokerQueue dlq = message.getQueue().getDeadLetterQueue();
 
         if(dlq == null){
+
             message.setStatus(MessageStatus.FAILED);
+
             return;
         }
 
         message.setQueue(dlq);
 
-        message.setStatus(MessageStatus.READY);
+        message.setStatus(MessageStatus.FAILED);
 
         message.setProcessed_at(null);
 
