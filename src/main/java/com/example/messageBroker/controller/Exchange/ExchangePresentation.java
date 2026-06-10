@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.messageBroker.controller.Exchange.Requestss.CreateExchangeReq;
+import com.example.messageBroker.controller.Exchange.Responses.ExchangeDTO;
 import com.example.messageBroker.controller.Exchange.Responses.ExchangeResponse;
 import com.example.messageBroker.core.Exchange.ExchangeService;
 
@@ -36,7 +37,7 @@ public class ExchangePresentation {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<?>> getAllExchanges() {
+    public ResponseEntity<List<ExchangeDTO>> getAllExchanges() {
         return ResponseEntity.ok().body(exchangeService.getAllExchanges());
     }
     

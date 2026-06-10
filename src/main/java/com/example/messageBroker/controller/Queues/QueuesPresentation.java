@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.messageBroker.controller.Queues.Requests.CreateQueueRequest;
 import com.example.messageBroker.controller.Queues.Resp.QueueResponse;
 import com.example.messageBroker.core.BrokerQueuesService;
+import com.example.messageBroker.domain.Message;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ public class QueuesPresentation {
     }
 
     @GetMapping("/{dlqName}/messages")
-    public List<?> getDeadLetterQueue(@PathVariable(name = "dlqName") String dlq) {
+    public List<Message> getDeadLetterQueue(@PathVariable(name = "dlqName") String dlq) {
         return queueService.getDlqMessages(dlq);
     }
 

@@ -43,9 +43,13 @@ public class ExchangeService {
     
     }
 
-    public List<?> getAllExchanges() {
-        
-        return exchangeRepo.findAll().stream().map( e -> new ExchangeDTO(e.getId(),e.getName())).toList();
+    public List<ExchangeDTO> getAllExchanges() {
+
+        List<Exchange> exchanges = exchangeRepo.findAll();
+
+        if(exchanges.size() < 1) return List.of();
+
+        return exchanges.stream().map( e -> new ExchangeDTO(e.getId(),e.getName())).toList();
 
     }
 
