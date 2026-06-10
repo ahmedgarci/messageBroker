@@ -18,6 +18,9 @@ jobs:
           java-version: 17
           distribution: temurin
 
+      - name: Run Tests
+        run: mvn clean test
+
       - name: Build and analyze (sonar cloud)
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

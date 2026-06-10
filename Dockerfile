@@ -11,7 +11,7 @@ COPY src ./src
 RUN mvn clean package 
 
 
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
